@@ -45,7 +45,7 @@ export default function NotFoundPage() {
         </button>
         <button
           onClick={() => navigate('/dashboard')}
-          className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-brand-500 to-purple-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg transition-all hover:-translate-y-0.5"
+          className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-brand-500 to-rose-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-brand-500/20 transition-all hover:-translate-y-0.5"
         >
           <Home className="h-4 w-4" />
           Dashboard

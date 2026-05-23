@@ -8,7 +8,7 @@ export default function PageLoader() {
       <motion.div
         animate={{ rotate: 360 }}
         transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-        className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-purple-600"
+        className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-rose-700"
       >
         <Zap className="h-6 w-6 text-white" />
       </motion.div>

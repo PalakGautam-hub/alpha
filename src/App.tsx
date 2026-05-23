@@ -36,7 +36,7 @@ export default function App() {
               fontSize: '14px',
             },
             success: {
-              iconTheme: { primary: '#6274f5', secondary: '#fff' },
+              iconTheme: { primary: '#f43f5e', secondary: '#fff' },
             },
           }}
         />

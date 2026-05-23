@@ -38,7 +38,7 @@ function Sidebar() {
           isCollapsed ? 'justify-center px-2' : 'gap-2.5 px-5'
         )}
       >
-        <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-brand-500 to-purple-600 shadow-lg">
+        <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-brand-500 to-rose-700 shadow-lg shadow-brand-500/20">
           <Zap className="h-4 w-4 text-white" />
         </div>
         <AnimatePresence>
@@ -109,7 +109,7 @@ function Sidebar() {
         )}
       >
         <div className="relative flex-shrink-0">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-brand-400 to-purple-500 text-xs font-bold text-white">
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-brand-400 to-rose-600 text-xs font-bold text-white">
             A
           </div>
           <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full border-2 border-surface-800 bg-emerald-400" />

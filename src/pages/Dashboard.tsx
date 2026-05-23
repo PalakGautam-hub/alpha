@@ -32,7 +32,7 @@ import type { Product } from '@/types';
 
 // Chart color palette
 const CHART_COLORS = [
-  '#6274f5', '#a78bfa', '#34d399', '#fbbf24',
+  '#f43f5e', '#a78bfa', '#34d399', '#fbbf24',
   '#f87171', '#38bdf8', '#fb923c', '#c084fc',
   '#4ade80', '#60a5fa', '#f472b6', '#a3e635',
 ];
@@ -341,8 +341,8 @@ function DashboardPage() {
             <AreaChart data={analytics.priceByCategory} margin={{ left: 0, bottom: 30 }}>
               <defs>
                 <linearGradient id="priceGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#6274f5" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="#6274f5" stopOpacity={0} />
+                  <stop offset="5%" stopColor="#f43f5e" stopOpacity={0.3} />
+                  <stop offset="95%" stopColor="#f43f5e" stopOpacity={0} />
                 </linearGradient>
                 <linearGradient id="stockGradient" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#34d399" stopOpacity={0.3} />
@@ -364,7 +364,7 @@ function DashboardPage() {
                 type="monotone"
                 dataKey="avgPrice"
                 name="Avg Price ($)"
-                stroke="#6274f5"
+                stroke="#f43f5e"
                 strokeWidth={2}
                 fill="url(#priceGradient)"
               />

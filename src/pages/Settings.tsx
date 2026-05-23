@@ -208,7 +208,7 @@ export default function SettingsPage() {
         </button>
         <button
           onClick={handleSave}
-          className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-brand-500 to-purple-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg transition-all hover:-translate-y-0.5"
+          className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-brand-500 to-rose-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-brand-500/10 transition-all hover:-translate-y-0.5"
         >
           <Save className="h-4 w-4" />
           Save Preferences

@@ -96,7 +96,7 @@ function TopBar() {
         {/* User avatar */}
         <button
           onClick={() => navigate('/settings')}
-          className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-brand-400 to-purple-500 text-xs font-bold text-white shadow-md transition-transform hover:scale-105"
+          className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-brand-400 to-rose-600 text-xs font-bold text-white shadow-md transition-transform hover:scale-105"
           aria-label="User profile"
         >
           A

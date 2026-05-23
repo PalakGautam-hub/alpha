@@ -34,7 +34,7 @@ export default function MobileDrawer() {
           {/* Header */}
           <div className="flex h-16 items-center justify-between border-b border-white/[0.06] px-5">
             <div className="flex items-center gap-2.5">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-brand-500 to-purple-600">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-brand-500 to-rose-700">
                 <Zap className="h-4 w-4 text-white" />
               </div>
               <span
@@ -97,7 +97,7 @@ export default function MobileDrawer() {
             )}
           >
             <div className="relative">
-              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-brand-400 to-purple-500 text-xs font-bold text-white">
+              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-brand-400 to-rose-600 text-xs font-bold text-white">
                 A
               </div>
               <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full border-2 border-surface-800 bg-emerald-400" />

@@ -1,25 +1,25 @@
 @import "tailwindcss";
 
 @theme {
-  --color-brand-50: #f0f4ff;
-  --color-brand-100: #e0e9ff;
-  --color-brand-200: #c7d7fe;
-  --color-brand-300: #a4bcfd;
-  --color-brand-400: #8098fb;
-  --color-brand-500: #6274f5;
-  --color-brand-600: #5056ea;
-  --color-brand-700: #4240ce;
-  --color-brand-800: #3636a6;
-  --color-brand-900: #302f84;
-  --color-brand-950: #1d1c4e;
+  --color-brand-50: #fff1f2;
+  --color-brand-100: #ffe4e6;
+  --color-brand-200: #fecdd3;
+  --color-brand-300: #fda4af;
+  --color-brand-400: #fb7185;
+  --color-brand-500: #f43f5e;
+  --color-brand-600: #e11d48;
+  --color-brand-700: #be123c;
+  --color-brand-800: #9f1239;
+  --color-brand-900: #881337;
+  --color-brand-950: #4c0519;
 
-  --color-surface-900: #0a0a0f;
-  --color-surface-800: #111118;
-  --color-surface-700: #16161f;
-  --color-surface-600: #1c1c28;
-  --color-surface-500: #24243a;
-  --color-surface-400: #2e2e4a;
-  --color-surface-300: #3a3a5c;
+  --color-surface-900: #080708;
+  --color-surface-800: #0f0d0e;
+  --color-surface-700: #161314;
+  --color-surface-600: #221d1f;
+  --color-surface-500: #2d2729;
+  --color-surface-400: #383032;
+  --color-surface-300: #453c3e;
 
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
@@ -65,12 +65,12 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.08);
     border-radius: 3px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.15);
   }
 
   [data-theme="light"] ::-webkit-scrollbar-thumb {
@@ -92,8 +92,8 @@
 @layer components {
   /* Glass card effect */
   .glass-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.04);
     backdrop-filter: blur(12px);
     border-radius: 12px;
   }
@@ -105,7 +105,7 @@
 
   /* Glow effect */
   .glow {
-    box-shadow: 0 0 20px rgba(98, 116, 245, 0.15);
+    box-shadow: 0 0 20px rgba(244, 63, 94, 0.12);
   }
 
   /* Sidebar link active state */
