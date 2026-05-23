@@ -69,17 +69,19 @@ function ProductsPage() {
 
   // Sync debounced search to URL
   useEffect(() => {
-    setSearchParams(
-      (prev) => {
-        const next = new URLSearchParams(prev);
-        if (debouncedSearch) next.set('search', debouncedSearch);
-        else next.delete('search');
-        next.set('page', '1');
-        return next;
-      },
-      { replace: true }
-    );
-  }, [debouncedSearch, setSearchParams]);
+    if (debouncedSearch !== searchQuery) {
+      setSearchParams(
+        (prev) => {
+          const next = new URLSearchParams(prev);
+          if (debouncedSearch) next.set('search', debouncedSearch);
+          else next.delete('search');
+          next.set('page', '1');
+          return next;
+        },
+        { replace: true }
+      );
+    }
+  }, [debouncedSearch, searchQuery, setSearchParams]);
 
   const { products, categories, isLoading, isRefreshing, error, refetch } = useProducts({
     pollInterval: 30_000,
@@ -298,9 +300,9 @@ function ProductsPage() {
           )}
           aria-label="Filter by minimum rating"
         >
-          <option value="0">All ratings</option>
-          <option value="4">4+ ★</option>
-          <option value="4.5">4.5+ ★</option>
+          <option value="0" className={theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'}>All ratings</option>
+          <option value="4" className={theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'}>4+ ★</option>
+          <option value="4.5" className={theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'}>4.5+ ★</option>
         </select>
 
         {/* Filter toggle */}
@@ -609,7 +611,7 @@ function ProductsPage() {
               )}
             >
               {PAGE_SIZES.map((s) => (
-                <option key={s} value={s}>
+                <option key={s} value={s} className={theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'}>
                   {s}
                 </option>
               ))}
