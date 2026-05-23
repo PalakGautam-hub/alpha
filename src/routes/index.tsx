@@ -1,7 +1,7 @@
 import { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import DashboardLayout from '@/layouts/DashboardLayout';
-import PageLoader from '@/components/PageLoader';
+import PageLoader from '@/components/ui/PageLoader';
 
 // Lazy-loaded pages for code splitting
 const DashboardPage = lazy(() => import('@/pages/Dashboard'));

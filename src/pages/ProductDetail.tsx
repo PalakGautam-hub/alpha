@@ -13,9 +13,9 @@ import toast from 'react-hot-toast';
 import { useProduct } from '@/hooks/useProduct';
 import { useThemeStore } from '@/store';
 import { formatCurrency, formatCategory, getStockStatus, cn } from '@/utils';
-import Badge from '@/components/Badge';
-import RatingStars from '@/components/RatingStars';
-import { Skeleton } from '@/components/Skeleton';
+import Badge from '@/components/ui/Badge';
+import RatingStars from '@/components/ui/RatingStars';
+import { Skeleton } from '@/components/ui/Skeleton';
 
 // ─── Image Carousel ───────────────────────────────────────────────────────────
 

@@ -23,8 +23,8 @@ import {
   Area,
   Legend,
 } from 'recharts';
-import StatCard from '@/components/StatCard';
-import { StatCardSkeleton, ChartSkeleton } from '@/components/Skeleton';
+import StatCard from '@/features/dashboard/components/StatCard';
+import { StatCardSkeleton, ChartSkeleton } from '@/components/ui/Skeleton';
 import { useProducts } from '@/hooks/useProducts';
 import { useThemeStore } from '@/store';
 import { formatCurrency, formatNumber, formatCategory } from '@/utils';

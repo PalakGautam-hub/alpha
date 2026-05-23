@@ -3,7 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import AppRoutes from '@/routes';
 import { useThemeStore } from '@/store';
-import CommandPalette from '@/components/CommandPalette';
+import CommandPalette from '@/components/ui/CommandPalette';
 
 export default function App() {
   const { theme } = useThemeStore();
