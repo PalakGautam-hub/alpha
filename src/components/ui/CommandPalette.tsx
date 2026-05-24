@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, ArrowRight, LayoutDashboard, ShoppingCart, Settings, X, Package } from 'lucide-react';
+import { Search, ArrowRight, LayoutDashboard, ShoppingCart, Settings, X, Package, ClipboardList } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useThemeStore } from '@/store';
 import { useKeyboardShortcut } from '@/hooks/useKeyboardShortcut';
@@ -35,6 +35,13 @@ const COMMANDS: CommandItem[] = [
     description: 'View items in your shopping cart',
     icon: ShoppingCart,
     path: '/cart',
+  },
+  {
+    id: 'orders',
+    label: 'Go to Orders',
+    description: 'Track and view your past orders',
+    icon: ClipboardList,
+    path: '/orders',
   },
   {
     id: 'settings',

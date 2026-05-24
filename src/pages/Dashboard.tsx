@@ -220,31 +220,33 @@ function DashboardPage() {
                   Category Distribution
                 </h2>
               </div>
-              <div className="flex items-center gap-4">
-                <ResponsiveContainer width="60%" height={220}>
-                  <PieChart>
-                    <Pie
-                      data={analytics.categoryDistribution}
-                      cx="50%"
-                      cy="50%"
-                      innerRadius={55}
-                      outerRadius={90}
-                      paddingAngle={2}
-                      dataKey="count"
-                      nameKey="name"
-                    >
-                      {analytics.categoryDistribution.map((_, index) => (
-                        <Cell
-                          key={index}
-                          fill={CHART_COLORS[index % CHART_COLORS.length]}
-                          opacity={0.9}
-                        />
-                      ))}
-                    </Pie>
-                    <Tooltip content={<CustomTooltip />} />
-                  </PieChart>
-                </ResponsiveContainer>
-                <div className="flex-1 space-y-1.5 overflow-hidden">
+              <div className="flex flex-col sm:flex-row items-center gap-6">
+                <div className="h-[220px] w-full sm:w-3/5">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={analytics.categoryDistribution}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={55}
+                        outerRadius={90}
+                        paddingAngle={2}
+                        dataKey="count"
+                        nameKey="name"
+                      >
+                        {analytics.categoryDistribution.map((_, index) => (
+                          <Cell
+                            key={index}
+                            fill={CHART_COLORS[index % CHART_COLORS.length]}
+                            opacity={0.9}
+                          />
+                        ))}
+                      </Pie>
+                      <Tooltip content={<CustomTooltip />} />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+                <div className="w-full sm:flex-1 space-y-1.5 overflow-hidden">
                   {analytics.categoryDistribution.slice(0, 7).map((cat, i) => (
                     <div key={cat.name} className="flex items-center gap-2 text-xs">
                       <span

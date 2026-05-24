@@ -9,14 +9,16 @@ import {
   ChevronRight,
   Zap,
   Package,
+  ClipboardList,
 } from 'lucide-react';
-import { useSidebarStore, useCartStore } from '@/store';
+import { useSidebarStore, useCartStore, useOrderStore } from '@/store';
 import { cn } from '@/utils';
 
 const NAV_ITEMS = [
   { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { path: '/products', label: 'Products', icon: Package },
   { path: '/cart', label: 'Cart', icon: ShoppingCart },
+  { path: '/orders', label: 'Orders', icon: ClipboardList },
   { path: '/settings', label: 'Settings', icon: Settings },
 ];
 
@@ -25,6 +27,9 @@ function Sidebar() {
   const location = useLocation();
   const totalItems = useCartStore((state) =>
     state.items.reduce((sum, item) => sum + item.quantity, 0)
+  );
+  const activeShipments = useOrderStore((state) =>
+    state.orders.filter((o) => o.status !== 'Delivered').length
   );
 
   return (
@@ -69,6 +74,7 @@ function Sidebar() {
               ? location.pathname === '/dashboard'
               : location.pathname.startsWith(path);
           const isCart = path === '/cart';
+          const isOrders = path === '/orders';
           return (
             <NavLink
               key={path}
@@ -94,6 +100,9 @@ function Sidebar() {
                 {isCart && totalItems > 0 && isCollapsed && (
                   <span className="absolute -right-1 -top-1 h-2 w-2 rounded-full bg-brand-500 ring-1 ring-surface-800" />
                 )}
+                {isOrders && activeShipments > 0 && isCollapsed && (
+                  <span className="absolute -right-1 -top-1 h-2 w-2 rounded-full bg-emerald-400 ring-1 ring-surface-800 animate-pulse" />
+                )}
               </div>
               <AnimatePresence>
                 {!isCollapsed && (
@@ -107,6 +116,11 @@ function Sidebar() {
                     {isCart && totalItems > 0 && (
                       <span className="rounded-full bg-brand-500 px-2 py-0.5 text-[10px] font-bold text-white">
                         {totalItems}
+                      </span>
+                    )}
+                    {isOrders && activeShipments > 0 && (
+                      <span className="rounded-full bg-emerald-500 px-2 py-0.5 text-[10px] font-bold text-white animate-pulse">
+                        {activeShipments}
                       </span>
                     )}
                   </motion.span>

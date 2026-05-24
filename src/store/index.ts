@@ -175,3 +175,51 @@ export const useCartStore = create<CartStore>()(
     { name: 'omega-cart' }
   )
 );
+
+// ─── Orders Store ─────────────────────────────────────────────────────────────
+
+export type OrderStatus = 'Processing' | 'Shipped' | 'In Transit' | 'Delivered';
+
+export interface Order {
+  id: string;
+  date: string;
+  items: CartItem[];
+  shippingAddress: {
+    name: string;
+    email: string;
+    address: string;
+    city: string;
+    state: string;
+    zip: string;
+  };
+  totals: {
+    subtotal: number;
+    discount: number;
+    shipping: number;
+    tax: number;
+    total: number;
+  };
+  status: OrderStatus;
+}
+
+interface OrderStore {
+  orders: Order[];
+  addOrder: (order: Order) => void;
+  updateOrderStatus: (orderId: string, status: OrderStatus) => void;
+  clearOrders: () => void;
+}
+
+export const useOrderStore = create<OrderStore>()(
+  persist(
+    (set) => ({
+      orders: [],
+      addOrder: (order) => set((state) => ({ orders: [order, ...state.orders] })),
+      updateOrderStatus: (orderId, status) =>
+        set((state) => ({
+          orders: state.orders.map((o) => (o.id === orderId ? { ...o, status } : o)),
+        })),
+      clearOrders: () => set({ orders: [] }),
+    }),
+    { name: 'omega-orders' }
+  )
+);

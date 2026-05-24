@@ -18,7 +18,7 @@ import {
   Printer,
 } from 'lucide-react';
 import toast from 'react-hot-toast';
-import { useCartStore, useThemeStore } from '@/store';
+import { useCartStore, useThemeStore, useOrderStore } from '@/store';
 import { useProducts } from '@/hooks/useProducts';
 import { formatCurrency, formatCategory, cn } from '@/utils';
 import Badge from '@/components/ui/Badge';
@@ -34,6 +34,7 @@ export default function CartPage() {
   const navigate = useNavigate();
   const { theme } = useThemeStore();
   const { items, removeItem, updateQuantity, clearCart, getTotalPrice } = useCartStore();
+  const addOrder = useOrderStore((state) => state.addOrder);
 
   const [couponCode, setCouponCode] = useState('');
   const [appliedCoupon, setAppliedCoupon] = useState<{ code: string; discount: number } | null>(null);
@@ -146,6 +147,23 @@ export default function CartPage() {
         toast.error('Please complete payment details.');
         return;
       }
+      
+      // Save order to store
+      addOrder({
+        id: receiptId,
+        date: new Date().toISOString(),
+        items: [...items],
+        shippingAddress: { ...shippingForm },
+        totals: {
+          subtotal: subtotal,
+          discount: couponDiscountAmount,
+          shipping: shippingCost,
+          tax: taxCost,
+          total: grandTotal,
+        },
+        status: 'Processing',
+      });
+
       // Trigger success checkout step
       setCheckoutStep(3);
       toast.success('Purchase complete! Thank you.', { icon: '🚀' });
@@ -267,52 +285,54 @@ export default function CartPage() {
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: 'auto' }}
                           exit={{ opacity: 0, height: 0 }}
-                          className="flex items-center gap-4 py-4 md:py-6"
+                          className="flex flex-col gap-4 py-4 sm:flex-row sm:items-center sm:gap-4 md:py-6"
                         >
-                          {/* Image */}
-                          <div
-                            onClick={() => navigate(`/products/${product.id}`)}
-                            className={cn(
-                              'relative h-16 w-16 cursor-pointer flex-shrink-0 overflow-hidden rounded-xl border transition-all hover:scale-105 md:h-20 md:w-20',
-                              theme === 'dark' ? 'border-white/[0.07] bg-white/[0.02]' : 'border-gray-100 bg-gray-50'
-                            )}
-                          >
-                            <img
-                              src={product.thumbnail}
-                              alt={product.title}
-                              className="h-full w-full object-contain p-1"
-                              loading="lazy"
-                            />
-                          </div>
-
-                          {/* Info */}
-                          <div className="min-w-0 flex-1 space-y-1">
-                            <div className="flex flex-wrap items-center gap-2">
-                              <Badge variant="info" size="sm">
-                                {formatCategory(product.category)}
-                              </Badge>
-                              {product.discountPercentage > 0 && (
-                                <Badge variant="success" size="sm">
-                                  -{product.discountPercentage.toFixed(0)}%
-                                </Badge>
-                              )}
-                            </div>
-                            <h3
+                          <div className="flex items-center gap-4 flex-1">
+                            {/* Image */}
+                            <div
                               onClick={() => navigate(`/products/${product.id}`)}
                               className={cn(
-                                'truncate text-sm font-semibold cursor-pointer hover:underline md:text-base',
-                                theme === 'dark' ? 'text-white' : 'text-gray-900'
+                                'relative h-16 w-16 cursor-pointer flex-shrink-0 overflow-hidden rounded-xl border transition-all hover:scale-105 md:h-20 md:w-20',
+                                theme === 'dark' ? 'border-white/[0.07] bg-white/[0.02]' : 'border-gray-100 bg-gray-50'
                               )}
                             >
-                              {product.title}
-                            </h3>
-                            <p className={cn('text-xs', theme === 'dark' ? 'text-white/30' : 'text-gray-400')}>
-                              by {product.brand || 'Omega'}
-                            </p>
+                              <img
+                                src={product.thumbnail}
+                                alt={product.title}
+                                className="h-full w-full object-contain p-1"
+                                loading="lazy"
+                              />
+                            </div>
+
+                            {/* Info */}
+                            <div className="min-w-0 flex-1 space-y-1">
+                              <div className="flex flex-wrap items-center gap-2">
+                                <Badge variant="info" size="sm">
+                                  {formatCategory(product.category)}
+                                </Badge>
+                                {product.discountPercentage > 0 && (
+                                  <Badge variant="success" size="sm">
+                                    -{product.discountPercentage.toFixed(0)}%
+                                  </Badge>
+                                )}
+                              </div>
+                              <h3
+                                onClick={() => navigate(`/products/${product.id}`)}
+                                className={cn(
+                                  'truncate text-sm font-semibold cursor-pointer hover:underline md:text-base',
+                                  theme === 'dark' ? 'text-white' : 'text-gray-900'
+                                )}
+                              >
+                                {product.title}
+                              </h3>
+                              <p className={cn('text-xs', theme === 'dark' ? 'text-white/30' : 'text-gray-400')}>
+                                by {product.brand || 'Omega'}
+                              </p>
+                            </div>
                           </div>
 
                           {/* Actions: Qty + Price */}
-                          <div className="flex flex-col items-end gap-3 md:flex-row md:items-center md:gap-6">
+                          <div className="flex items-center justify-between gap-4 w-full sm:w-auto sm:justify-end md:gap-6">
                             {/* Qty Controls */}
                             <div
                               className={cn(
@@ -378,7 +398,7 @@ export default function CartPage() {
                                 removeItem(product.id);
                                 toast.success(`${product.title} removed from cart.`);
                               }}
-                              className="hidden p-1 text-white/30 transition-colors hover:text-red-400 md:block"
+                              className="p-1 text-white/30 transition-colors hover:text-red-400"
                               aria-label={`Remove ${product.title} from cart`}
                             >
                               <Trash2 className="h-4 w-4" />

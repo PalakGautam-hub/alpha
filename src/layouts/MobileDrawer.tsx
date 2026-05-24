@@ -1,13 +1,14 @@
 import { NavLink, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { LayoutDashboard, ShoppingCart, Settings, Zap, X, Package } from 'lucide-react';
-import { useSidebarStore, useThemeStore, useCartStore } from '@/store';
+import { LayoutDashboard, ShoppingCart, Settings, Zap, X, Package, ClipboardList } from 'lucide-react';
+import { useSidebarStore, useThemeStore, useCartStore, useOrderStore } from '@/store';
 import { cn } from '@/utils';
 
 const NAV_ITEMS = [
   { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { path: '/products', label: 'Products', icon: Package },
   { path: '/cart', label: 'Cart', icon: ShoppingCart },
+  { path: '/orders', label: 'Orders', icon: ClipboardList },
   { path: '/settings', label: 'Settings', icon: Settings },
 ];
 
@@ -17,6 +18,9 @@ export default function MobileDrawer() {
   const location = useLocation();
   const totalItems = useCartStore((state) =>
     state.items.reduce((sum, item) => sum + item.quantity, 0)
+  );
+  const activeShipments = useOrderStore((state) =>
+    state.orders.filter((o) => o.status !== 'Delivered').length
   );
 
   return (
@@ -72,6 +76,7 @@ export default function MobileDrawer() {
                   ? location.pathname === '/dashboard'
                   : location.pathname.startsWith(path);
               const isCart = path === '/cart';
+              const isOrders = path === '/orders';
               return (
                 <NavLink
                   key={path}
@@ -92,6 +97,11 @@ export default function MobileDrawer() {
                   {isCart && totalItems > 0 && (
                     <span className="rounded-full bg-brand-500 px-2 py-0.5 text-[10px] font-bold text-white">
                       {totalItems}
+                    </span>
+                  )}
+                  {isOrders && activeShipments > 0 && (
+                    <span className="rounded-full bg-emerald-500 px-2 py-0.5 text-[10px] font-bold text-white animate-pulse">
+                      {activeShipments}
                     </span>
                   )}
                 </NavLink>
