@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, ArrowRight, LayoutDashboard, ShoppingCart, Settings, X } from 'lucide-react';
+import { Search, ArrowRight, LayoutDashboard, ShoppingCart, Settings, X, Package } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useThemeStore } from '@/store';
 import { useKeyboardShortcut } from '@/hooks/useKeyboardShortcut';
@@ -26,8 +26,15 @@ const COMMANDS: CommandItem[] = [
     id: 'products',
     label: 'Go to Products',
     description: 'Browse & manage products',
-    icon: ShoppingCart,
+    icon: Package,
     path: '/products',
+  },
+  {
+    id: 'cart',
+    label: 'Go to Cart',
+    description: 'View items in your shopping cart',
+    icon: ShoppingCart,
+    path: '/cart',
   },
   {
     id: 'settings',

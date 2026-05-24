@@ -11,7 +11,7 @@ import {
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useProduct } from '@/hooks/useProduct';
-import { useThemeStore } from '@/store';
+import { useThemeStore, useCartStore } from '@/store';
 import { formatCurrency, formatCategory, getStockStatus, cn } from '@/utils';
 import Badge from '@/components/ui/Badge';
 import RatingStars from '@/components/ui/RatingStars';
@@ -156,11 +156,16 @@ function ProductDetailPage() {
     });
   }, []);
 
+  const addItem = useCartStore((state) => state.addItem);
+
   const handleAddToCart = useCallback(() => {
-    toast.success(`${product?.title} added to cart!`, {
-      icon: '🛒',
-    });
-  }, [product]);
+    if (product) {
+      addItem(product, 1);
+      toast.success(`${product.title} added to cart!`, {
+        icon: '🛒',
+      });
+    }
+  }, [product, addItem]);
 
   if (isLoading) {
     return (

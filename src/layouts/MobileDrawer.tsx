@@ -1,12 +1,13 @@
 import { NavLink, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { LayoutDashboard, ShoppingCart, Settings, Zap, X } from 'lucide-react';
-import { useSidebarStore, useThemeStore } from '@/store';
+import { LayoutDashboard, ShoppingCart, Settings, Zap, X, Package } from 'lucide-react';
+import { useSidebarStore, useThemeStore, useCartStore } from '@/store';
 import { cn } from '@/utils';
 
 const NAV_ITEMS = [
   { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { path: '/products', label: 'Products', icon: ShoppingCart },
+  { path: '/products', label: 'Products', icon: Package },
+  { path: '/cart', label: 'Cart', icon: ShoppingCart },
   { path: '/settings', label: 'Settings', icon: Settings },
 ];
 
@@ -14,6 +15,9 @@ export default function MobileDrawer() {
   const { isMobileOpen, setMobileOpen } = useSidebarStore();
   const { theme } = useThemeStore();
   const location = useLocation();
+  const totalItems = useCartStore((state) =>
+    state.items.reduce((sum, item) => sum + item.quantity, 0)
+  );
 
   return (
     <AnimatePresence>
@@ -67,6 +71,7 @@ export default function MobileDrawer() {
                 path === '/dashboard'
                   ? location.pathname === '/dashboard'
                   : location.pathname.startsWith(path);
+              const isCart = path === '/cart';
               return (
                 <NavLink
                   key={path}
@@ -83,7 +88,12 @@ export default function MobileDrawer() {
                   aria-current={isActive ? 'page' : undefined}
                 >
                   <Icon className="h-4.5 w-4.5 flex-shrink-0" aria-hidden="true" />
-                  {label}
+                  <span className="flex-1">{label}</span>
+                  {isCart && totalItems > 0 && (
+                    <span className="rounded-full bg-brand-500 px-2 py-0.5 text-[10px] font-bold text-white">
+                      {totalItems}
+                    </span>
+                  )}
                 </NavLink>
               );
             })}

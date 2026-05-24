@@ -7,6 +7,7 @@ import PageLoader from '@/components/ui/PageLoader';
 const DashboardPage = lazy(() => import('@/pages/Dashboard'));
 const ProductsPage = lazy(() => import('@/pages/Products'));
 const ProductDetailPage = lazy(() => import('@/pages/ProductDetail'));
+const CartPage = lazy(() => import('@/pages/Cart'));
 const SettingsPage = lazy(() => import('@/pages/Settings'));
 const NotFoundPage = lazy(() => import('@/pages/NotFound'));
 
@@ -19,6 +20,7 @@ export default function AppRoutes() {
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/products/:id" element={<ProductDetailPage />} />
+          <Route path="/cart" element={<CartPage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>

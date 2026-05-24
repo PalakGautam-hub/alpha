@@ -34,7 +34,7 @@ import {
 } from 'lucide-react';
 import { useProducts } from '@/hooks/useProducts';
 import { useDebounce } from '@/hooks/useDebounce';
-import { useThemeStore, usePreferencesStore } from '@/store';
+import { useThemeStore, usePreferencesStore, useCartStore } from '@/store';
 import { formatCurrency, formatCategory, getStockStatus, cn, truncate } from '@/utils';
 import Badge from '@/components/ui/Badge';
 import RatingStars from '@/components/ui/RatingStars';
@@ -207,7 +207,21 @@ function ProductsPage() {
 
   // ─── TanStack Table ──────────────────────────────────────────────────────
 
-  const columns = useMemo(() => buildColumns(navigate, theme), [navigate, theme]);
+  const addItem = useCartStore((state) => state.addItem);
+  const handleAddToCart = useCallback(
+    (product: Product) => {
+      addItem(product, 1);
+      toast.success(`${product.title} added to cart!`, {
+        icon: '🛒',
+      });
+    },
+    [addItem]
+  );
+
+  const columns = useMemo(
+    () => buildColumns(navigate, theme, handleAddToCart),
+    [navigate, theme, handleAddToCart]
+  );
   const [sorting, setSorting] = useState<SortingState>([]);
 
   const table = useReactTable({

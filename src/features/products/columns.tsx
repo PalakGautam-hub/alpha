@@ -1,5 +1,5 @@
 import type { ColumnDef } from '@tanstack/react-table';
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink, ShoppingCart } from 'lucide-react';
 import Badge from '@/components/ui/Badge';
 import RatingStars from '@/components/ui/RatingStars';
 import { formatCurrency, formatCategory, getStockStatus, cn, truncate } from '@/utils';
@@ -7,7 +7,8 @@ import type { Product } from '@/types';
 
 export function buildColumns(
   navigate: (path: string) => void,
-  theme: string
+  theme: string,
+  onAddToCart?: (product: Product) => void
 ): ColumnDef<Product>[] {
   return [
     {
@@ -146,6 +147,40 @@ export function buildColumns(
           <Badge variant="success">-{val.toFixed(0)}%</Badge>
         ) : (
           <span className={cn('text-xs', theme === 'dark' ? 'text-white/20' : 'text-gray-300')}>—</span>
+        );
+      },
+    },
+    {
+      id: 'actions',
+      header: 'Actions',
+      enableSorting: false,
+      cell: ({ row }) => {
+        const product = row.original;
+        const isOutOfStock = product.stock <= 0;
+        return (
+          <button
+            onClick={(e) => {
+              e.stopPropagation(); // Prevent row navigation click
+              if (onAddToCart && !isOutOfStock) {
+                onAddToCart(product);
+              }
+            }}
+            disabled={isOutOfStock}
+            className={cn(
+              'flex h-7 w-7 items-center justify-center rounded-lg border transition-all duration-150',
+              isOutOfStock
+                ? theme === 'dark'
+                  ? 'border-white/[0.04] bg-white/[0.01] text-white/20 cursor-not-allowed'
+                  : 'border-gray-100 bg-gray-50 text-gray-300 cursor-not-allowed'
+                : theme === 'dark'
+                  ? 'border-white/[0.08] bg-white/[0.02] text-white/60 hover:bg-brand-500/10 hover:border-brand-500/40 hover:text-brand-400'
+                  : 'border-gray-200 bg-white text-gray-500 hover:bg-brand-50 hover:border-brand-400/40 hover:text-brand-600'
+            )}
+            title={isOutOfStock ? 'Out of stock' : 'Add to cart'}
+            aria-label={`Add ${product.title} to cart`}
+          >
+            <ShoppingCart className="h-3.5 w-3.5" />
+          </button>
         );
       },
     },

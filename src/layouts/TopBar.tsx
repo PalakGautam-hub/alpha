@@ -1,7 +1,7 @@
 import { memo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Menu, Sun, Moon, Search, Bell, Command } from 'lucide-react';
-import { useThemeStore, useSidebarStore } from '@/store';
+import { Menu, Sun, Moon, Search, Bell, Command, ShoppingCart } from 'lucide-react';
+import { useThemeStore, useSidebarStore, useCartStore } from '@/store';
 import { cn } from '@/utils';
 
 function TopBar() {
@@ -9,6 +9,9 @@ function TopBar() {
   const { toggleMobile } = useSidebarStore();
   const navigate = useNavigate();
   const [hasNotification] = useState(true);
+  const totalItems = useCartStore((state) =>
+    state.items.reduce((sum, item) => sum + item.quantity, 0)
+  );
 
   const openCommandPalette = () => {
     window.dispatchEvent(new CustomEvent('open-command-palette'));
@@ -63,6 +66,25 @@ function TopBar() {
       </button>
 
       <div className="ml-auto flex items-center gap-2">
+        {/* Cart */}
+        <button
+          onClick={() => navigate('/cart')}
+          className={cn(
+            'relative flex h-9 w-9 items-center justify-center rounded-lg transition-colors',
+            theme === 'dark'
+              ? 'text-white/60 hover:bg-white/[0.06] hover:text-white'
+              : 'text-gray-500 hover:bg-gray-100 hover:text-gray-900'
+          )}
+          aria-label={`Shopping cart with ${totalItems} items`}
+        >
+          <ShoppingCart className="h-4.5 w-4.5" />
+          {totalItems > 0 && (
+            <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-brand-500 text-[9px] font-bold text-white ring-2 ring-surface-800">
+              {totalItems}
+            </span>
+          )}
+        </button>
+
         {/* Notifications */}
         <button
           className={cn(

@@ -8,19 +8,24 @@ import {
   ChevronLeft,
   ChevronRight,
   Zap,
+  Package,
 } from 'lucide-react';
-import { useSidebarStore } from '@/store';
+import { useSidebarStore, useCartStore } from '@/store';
 import { cn } from '@/utils';
 
 const NAV_ITEMS = [
   { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { path: '/products', label: 'Products', icon: ShoppingCart },
+  { path: '/products', label: 'Products', icon: Package },
+  { path: '/cart', label: 'Cart', icon: ShoppingCart },
   { path: '/settings', label: 'Settings', icon: Settings },
 ];
 
 function Sidebar() {
   const { isCollapsed, toggleCollapsed } = useSidebarStore();
   const location = useLocation();
+  const totalItems = useCartStore((state) =>
+    state.items.reduce((sum, item) => sum + item.quantity, 0)
+  );
 
   return (
     <aside
@@ -63,6 +68,7 @@ function Sidebar() {
             path === '/dashboard'
               ? location.pathname === '/dashboard'
               : location.pathname.startsWith(path);
+          const isCart = path === '/cart';
           return (
             <NavLink
               key={path}
@@ -77,22 +83,32 @@ function Sidebar() {
               )}
               aria-current={isActive ? 'page' : undefined}
             >
-              <Icon
-                className={cn(
-                  'h-4.5 w-4.5 flex-shrink-0 transition-colors',
-                  isActive ? 'text-brand-400' : 'text-white/40 group-hover:text-white/80'
+              <div className="relative flex items-center justify-center">
+                <Icon
+                  className={cn(
+                    'h-4.5 w-4.5 flex-shrink-0 transition-colors',
+                    isActive ? 'text-brand-400' : 'text-white/40 group-hover:text-white/80'
+                  )}
+                  aria-hidden="true"
+                />
+                {isCart && totalItems > 0 && isCollapsed && (
+                  <span className="absolute -right-1 -top-1 h-2 w-2 rounded-full bg-brand-500 ring-1 ring-surface-800" />
                 )}
-                aria-hidden="true"
-              />
+              </div>
               <AnimatePresence>
                 {!isCollapsed && (
                   <motion.span
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="overflow-hidden whitespace-nowrap"
+                    className="flex flex-1 items-center justify-between overflow-hidden whitespace-nowrap"
                   >
-                    {label}
+                    <span>{label}</span>
+                    {isCart && totalItems > 0 && (
+                      <span className="rounded-full bg-brand-500 px-2 py-0.5 text-[10px] font-bold text-white">
+                        {totalItems}
+                      </span>
+                    )}
                   </motion.span>
                 )}
               </AnimatePresence>

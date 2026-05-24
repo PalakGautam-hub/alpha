@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { Theme, UserPreferences, ColumnVisibility } from '@/types';
+import type { Theme, UserPreferences, ColumnVisibility, Product } from '@/types';
 
 // ─── Theme Store ──────────────────────────────────────────────────────────────
 
@@ -106,3 +106,72 @@ export const useSidebarStore = create<SidebarStore>()((set) => ({
   toggleMobile: () => set((state) => ({ isMobileOpen: !state.isMobileOpen })),
   setMobileOpen: (open) => set({ isMobileOpen: open }),
 }));
+
+// ─── Cart Store ───────────────────────────────────────────────────────────────
+
+export interface CartItem {
+  product: Product;
+  quantity: number;
+}
+
+interface CartStore {
+  items: CartItem[];
+  addItem: (product: Product, quantity?: number) => void;
+  removeItem: (productId: number) => void;
+  updateQuantity: (productId: number, quantity: number) => void;
+  clearCart: () => void;
+  getTotalItems: () => number;
+  getTotalPrice: () => number;
+}
+
+export const useCartStore = create<CartStore>()(
+  persist(
+    (set, get) => ({
+      items: [],
+      addItem: (product, quantity = 1) => {
+        set((state) => {
+          const existingIndex = state.items.findIndex((item) => item.product.id === product.id);
+          if (existingIndex > -1) {
+            const nextItems = [...state.items];
+            const nextQty = nextItems[existingIndex].quantity + quantity;
+            nextItems[existingIndex] = {
+              ...nextItems[existingIndex],
+              quantity: Math.min(nextQty, product.stock),
+            };
+            return { items: nextItems };
+          }
+          return {
+            items: [...state.items, { product, quantity: Math.min(quantity, product.stock) }],
+          };
+        });
+      },
+      removeItem: (productId) => {
+        set((state) => ({
+          items: state.items.filter((item) => item.product.id !== productId),
+        }));
+      },
+      updateQuantity: (productId, quantity) => {
+        set((state) => ({
+          items: state.items.map((item) =>
+            item.product.id === productId
+              ? { ...item, quantity: Math.max(1, Math.min(quantity, item.product.stock)) }
+              : item
+          ),
+        }));
+      },
+      clearCart: () => set({ items: [] }),
+      getTotalItems: () => {
+        return get().items.reduce((total, item) => total + item.quantity, 0);
+      },
+      getTotalPrice: () => {
+        return get().items.reduce((total, item) => {
+          const price = item.product.price;
+          const discount = item.product.discountPercentage || 0;
+          const discountedPrice = price * (1 - discount / 100);
+          return total + discountedPrice * item.quantity;
+        }, 0);
+      },
+    }),
+    { name: 'omega-cart' }
+  )
+);
